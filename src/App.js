@@ -5,10 +5,13 @@ import {Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
 import {Program, Provider, web3} from '@project-serum/anchor';
 
 import idl from './idl.json';
+import keypair from './keypair.json';
 
 const {SystemProgram, Keypair} = web3;
 
-let baseAccount = Keypair.generate();
+let arrKeypair = Object.values(keypair._keypair.secretKey);
+const secret = new Uint8Array(arrKeypair);
+let baseAccount = web3.Keypair.fromSecretKey(secret);
 
 let programId = new PublicKey(idl.metadata.address);
 
@@ -146,9 +149,9 @@ const App = () => {
           Submit
         </button>
         <div className="gif-grid">
-          {gifList.map((gif) => (
-            <div className="gif-item" key={gif}>
-              <img src={gif} alt={gif} />
+          {gifList.map(({gifLink}, index) => (
+            <div className="gif-item" key={index}>
+              <img src={gifLink} alt={gifLink} />
             </div>
           ))}
         </div>

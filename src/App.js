@@ -7,7 +7,7 @@ import {Program, Provider, web3} from '@project-serum/anchor';
 import idl from './idl.json';
 import keypair from './keypair.json';
 
-const {SystemProgram, Keypair} = web3;
+const {SystemProgram} = web3;
 
 let arrKeypair = Object.values(keypair._keypair.secretKey);
 const secret = new Uint8Array(arrKeypair);
@@ -82,14 +82,6 @@ const App = () => {
       opts.preflightCommitment
     );
     return provider;
-  };
-
-  const sendGifOld = async () => {
-    if (inputValue.length > 0) {
-      console.log('Gif link:', inputValue);
-    } else {
-      console.log('Empty input. Try again.');
-    }
   };
 
   const sendGif = async () => {
@@ -211,7 +203,7 @@ const App = () => {
       console.log('Fetching gif list...');
       getGifList();
     }
-  }, [walletAddress]);
+  }, [walletAddress, getGifList]);
 
   return (
     <div className="App">

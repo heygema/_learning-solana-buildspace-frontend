@@ -1,9 +1,15 @@
 .App {
   height: 100vh;
-  /* background-color: #1a202c; */
-  background-color: hsla(176, 100%, 37%, 1);
   overflow: scroll;
   text-align: center;
+}
+
+.off {
+  background-color: hsl(0, 0%, 0%);
+}
+
+.on {
+  background-color: hsl(0, 90%, 45%);
 }
 
 .container {
@@ -114,13 +120,13 @@
 
 .connected-container input[type='text'] {
   display: inline-block;
-  color: white;
+  color: rgba(0, 0, 0, 0.25);
+  background-color: hsla(0, 16%, 93%, 1);
   padding: 10px;
   width: 50%;
   height: 60px;
   font-size: 16px;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.25);
   border: none;
   border-radius: 10px;
   margin: 50px auto;

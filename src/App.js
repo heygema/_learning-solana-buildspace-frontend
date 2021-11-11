@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import twitterLogo from './assets/twitter-logo.svg';
 import './App.css';
 import {Connection, PublicKey, clusterApiUrl} from '@solana/web3.js';
@@ -24,17 +24,13 @@ const opts = {
 // Constants
 const TWITTER_HANDLE = '_buildspace';
 const TWITTER_LINK = `https://twitter.com/${TWITTER_HANDLE}`;
-const TEST_GIFS = [
-  'https://i.giphy.com/media/eIG0HfouRQJQr1wBzz/giphy.webp',
-  'https://media3.giphy.com/media/L71a8LW2UrKwPaWNYM/giphy.gif?cid=ecf05e47rr9qizx2msjucl1xyvuu47d7kf25tqt2lvo024uo&rid=giphy.gif&ct=g',
-  'https://media4.giphy.com/media/AeFmQjHMtEySooOc8K/giphy.gif?cid=ecf05e47qdzhdma2y3ugn32lkgi972z9mpfzocjj6z1ro4ec&rid=giphy.gif&ct=g',
-  'https://i.giphy.com/media/PAqjdPkJLDsmBRSYUp/giphy.webp',
-];
 
 const App = () => {
   const [walletAddress, setWalletAddress] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [gifList, setGifList] = useState([]);
+  const [isOn, setOn] = useState(false);
+  let timeout = useRef(null).current;
 
   const checkWallet = async () => {
     try {
@@ -99,6 +95,7 @@ const App = () => {
           user: provider.wallet.publicKey,
         },
       });
+      setInputValue('');
       console.log('Gif sent!!', inputValue);
       await getGifList();
     } catch (err) {
@@ -203,10 +200,22 @@ const App = () => {
       console.log('Fetching gif list...');
       getGifList();
     }
-  }, [walletAddress, getGifList]);
+  }, [walletAddress]);
+
+  useEffect(() => {
+    timeout = setTimeout(() => {
+      setOn(!isOn);
+    }, 100);
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+    };
+  });
 
   return (
-    <div className="App">
+    <div className={`App ` + (isOn ? 'on' : 'off')}>
       <div className={walletAddress ? 'authed-container' : 'container'}>
         <div className="header-container">
           <p className="header">😂GIF IS LYFE🤯</p>
